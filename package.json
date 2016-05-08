@@ -1,0 +1,29 @@
+{
+  "name": "react-to-do",
+  "version": "1.0.0",
+  "description": "Todo list created in React.js",
+  "main": "index.js",
+  "dependencies": {
+  },
+  "devDependencies": {
+    "babelify": "7.3.0",
+    "browserify": "13.0.1"
+  },
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/snags88/react-to-do-no-db.git"
+  },
+  "keywords": [
+    "react",
+    "todo"
+  ],
+  "author": "Seiji Naganuma",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/snags88/react-to-do-no-db/issues"
+  },
+  "homepage": "https://github.com/snags88/react-to-do-no-db"
+}
