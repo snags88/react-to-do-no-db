@@ -15,12 +15,6 @@ reloads.
 
 ## Configuration steps
 
-1. You need to run a local server in order to have this work correclty.
-   I used `http-server`, which is available on npm. You can easily boot
-up a local server by running `npm install http-server -g` and in the
-directory of the project, run `http-server`. The ToDo list will be
-available at `http://127.0.0.1:8080/to-do.html`. If you don't want to
-use `npm` you can check
-[this](https://github.com/mrdoob/three.js/wiki/How-to-run-things-locally)
-out to configure your local server.
-
+1. Run `$ npm install` to install dependencies.
+2. Run `$ gulp` to run the build and watcher.
+3. Run `$ open public/index.html` to view page.
