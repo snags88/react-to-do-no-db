@@ -1,4 +1,4 @@
-var TodoForm = require('./components/form.jsx')
+var MainComponent = require('./components/main.jsx')
   ;
 
-ReactDOM.render(<TodoForm />, document.getElementById('js--todo'));
+ReactDOM.render(<MainComponent />, document.getElementById('js--todo'));
