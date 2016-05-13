@@ -47,10 +47,26 @@ var ItemComponent = React.createClass({
     return React.createElement(
       "li",
       null,
-      " ",
-      this.props.item.value,
-      " "
+      React.createElement(
+        "div",
+        null,
+        " ",
+        this.props.item.value,
+        " "
+      ),
+      React.createElement(
+        "button",
+        {
+          onClick: this.handleDelete
+        },
+        "Delete"
+      )
     );
+  },
+
+  handleDelete: function handleDelete(e) {
+    e.preventDefault();
+    this.props.removeRecord(this.props.item);
   }
 });
 
@@ -66,6 +82,7 @@ var MainComponent = React.createClass({
   displayName: 'MainComponent',
 
   render: function render() {
+    var self = this;
     return React.createElement(
       'div',
       null,
@@ -74,7 +91,7 @@ var MainComponent = React.createClass({
         'ol',
         null,
         this.state.records.map(function (record, i) {
-          return React.createElement(ItemComponent, { item: record, key: i });
+          return React.createElement(ItemComponent, { item: record, key: i, removeRecord: self.removeRecord });
         })
       )
     );
@@ -87,6 +104,13 @@ var MainComponent = React.createClass({
   addRecord: function addRecord(record) {
     var records = this.state.records;
     records.push(record);
+    this.setState({ records: records });
+  },
+
+  removeRecord: function removeRecord(record) {
+    var records = this.state.records;
+    var index = this.state.records.indexOf(record);
+    records.splice(index, 1);
     this.setState({ records: records });
   }
 });
