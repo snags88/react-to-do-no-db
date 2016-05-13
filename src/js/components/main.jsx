@@ -11,7 +11,7 @@ var MainComponent = React.createClass({
         <ol>
           {
             this.state.records.map(function(record, i) {
-              return <ItemComponent item = {record} key={i} removeRecord= {self.removeRecord}/>;
+              return <ItemComponent item = {record} key={i} removeRecord={self.removeRecord} updateRecord={self.updateRecord}/>;
             })
           }
         </ol>
@@ -33,6 +33,13 @@ var MainComponent = React.createClass({
     var records = this.state.records;
     var index = this.state.records.indexOf(record);
     records.splice(index, 1);
+    this.setState({records: records})
+  },
+
+  updateRecord: function updateRecord (record, data) {
+    var records = this.state.records;
+    var index = this.state.records.indexOf(record);
+    records.splice(index, 0, data);
     this.setState({records: records})
   }
 });

@@ -16,7 +16,7 @@ var TodoForm = React.createClass({
   },
 
   getInitialState: function getInitialState () {
-    return { value: '' };
+    return { value: '', checked: false };
   },
 
   handleChange: function handleChange (e) {

@@ -21,7 +21,7 @@ var TodoForm = React.createClass({
   },
 
   getInitialState: function getInitialState() {
-    return { value: '' };
+    return { value: '', checked: false };
   },
 
   handleChange: function handleChange(e) {
@@ -38,35 +38,61 @@ var TodoForm = React.createClass({
 module.exports = TodoForm;
 
 },{}],2:[function(require,module,exports){
-"use strict";
+'use strict';
 
 var ItemComponent = React.createClass({
-  displayName: "ItemComponent",
+  displayName: 'ItemComponent',
 
   render: function render() {
+    var checked;
+    if (this.state.checked) {
+      checked = 'Checked!';
+    } else {
+      checked = 'Unchecked';
+    }
+
     return React.createElement(
-      "li",
+      'li',
       null,
       React.createElement(
-        "div",
+        'div',
         null,
-        " ",
+        ' ',
         this.props.item.value,
-        " "
+        ' '
       ),
       React.createElement(
-        "button",
+        'button',
         {
           onClick: this.handleDelete
         },
-        "Delete"
+        'Delete'
+      ),
+      React.createElement('input', { type: 'checkbox', onChange: this.handleUpdate, ref: 'check' }),
+      React.createElement(
+        'div',
+        null,
+        checked
       )
     );
+  },
+
+  getInitialState: function getInititalState() {
+    return { checked: this.props.item.checked };
   },
 
   handleDelete: function handleDelete(e) {
     e.preventDefault();
     this.props.removeRecord(this.props.item);
+  },
+
+  handleCheck: function handleCheck(e) {
+    data = {
+      checked: ReactDOM.findDOMNode(this.refs.check).checked
+    };
+
+    newRecord = Object.assign(data, this.props.item);
+    this.props.updateRecord(this.props.item, newRecord);
   }
 });
 
@@ -91,7 +117,7 @@ var MainComponent = React.createClass({
         'ol',
         null,
         this.state.records.map(function (record, i) {
-          return React.createElement(ItemComponent, { item: record, key: i, removeRecord: self.removeRecord });
+          return React.createElement(ItemComponent, { item: record, key: i, removeRecord: self.removeRecord, updateRecord: self.updateRecord });
         })
       )
     );
@@ -111,6 +137,13 @@ var MainComponent = React.createClass({
     var records = this.state.records;
     var index = this.state.records.indexOf(record);
     records.splice(index, 1);
+    this.setState({ records: records });
+  },
+
+  updateRecord: function updateRecord(record, data) {
+    var records = this.state.records;
+    var index = this.state.records.indexOf(record);
+    records.splice(index, 0, data);
     this.setState({ records: records });
   }
 });
