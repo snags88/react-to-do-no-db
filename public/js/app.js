@@ -45,7 +45,7 @@ var ItemComponent = React.createClass({
 
   render: function render() {
     var checked;
-    if (this.state.checked) {
+    if (this.props.item.checked) {
       checked = 'Checked!';
     } else {
       checked = 'Unchecked';
@@ -71,15 +71,11 @@ var ItemComponent = React.createClass({
       React.createElement('input', {
         type: 'checkbox',
         onChange: this.handleUpdate,
-        defaultChecked: this.state.checked,
+        checked: this.props.item.checked,
         ref: 'check' }),
       ' ',
       checked
     );
-  },
-
-  getInitialState: function getInititalState() {
-    return { checked: this.props.item.checked };
   },
 
   handleDelete: function handleDelete(e) {
@@ -87,14 +83,12 @@ var ItemComponent = React.createClass({
     this.props.removeRecord(this.props.item);
   },
 
-  handleCheck: function handleCheck(e) {
-    console.log('changed');
-    data = {
-      checked: this.refs.check.state.checked
+  handleUpdate: function handleCheck(e) {
+    var data = {
+      checked: this.refs.check.checked
     };
-    setState(data);
 
-    newRecord = Object.assign(data, this.props.item);
+    var newRecord = Object.assign(this.props.item, data);
     this.props.updateRecord(this.props.item, newRecord);
   }
 });
@@ -146,7 +140,7 @@ var MainComponent = React.createClass({
   updateRecord: function updateRecord(record, data) {
     var records = this.state.records;
     var index = this.state.records.indexOf(record);
-    records.splice(index, 0, data);
+    records.splice(index, 1, data);
     this.setState({ records: records });
   }
 });

@@ -39,7 +39,7 @@ var MainComponent = React.createClass({
   updateRecord: function updateRecord (record, data) {
     var records = this.state.records;
     var index = this.state.records.indexOf(record);
-    records.splice(index, 0, data);
+    records.splice(index, 1, data);
     this.setState({records: records})
   }
 });
