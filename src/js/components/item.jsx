@@ -15,8 +15,11 @@ var ItemComponent = React.createClass({
         >
           Delete
         </button>
-        <input type = 'checkbox' onChange = {this.handleUpdate} ref = 'check' />
-        <div>{checked}</div>
+        <input
+          type='checkbox'
+          onChange={this.handleUpdate}
+          defaultChecked={this.state.checked}
+          ref='check' /> {checked}
       </li>
     );
   },
@@ -31,9 +34,11 @@ var ItemComponent = React.createClass({
   },
 
   handleCheck: function handleCheck (e) {
+    console.log('changed');
     data = {
-      checked: ReactDOM.findDOMNode(this.refs.check).checked
+      checked: this.refs.check.state.checked
     };
+    setState(data);
 
     newRecord = Object.assign(data, this.props.item);
     this.props.updateRecord(this.props.item, newRecord);
