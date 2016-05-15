@@ -44,19 +44,22 @@ var ItemComponent = React.createClass({
   displayName: 'ItemComponent',
 
   render: function render() {
-    var checked;
-    if (this.props.item.checked) {
-      checked = 'Checked!';
+    if (this.state.edit) {
+      return this.editView();
     } else {
-      checked = 'Unchecked';
+      return this.readView();
     }
+  },
+
+  readView: function readView() {
+    this.removeOffClickListener();
 
     return React.createElement(
       'li',
       null,
       React.createElement(
         'div',
-        null,
+        { onClick: this.toggleEdit, ref: 'edit' },
         ' ',
         this.props.item.value,
         ' '
@@ -74,8 +77,68 @@ var ItemComponent = React.createClass({
         checked: this.props.item.checked,
         ref: 'check' }),
       ' ',
-      checked
+      this.checkedMessage()
     );
+  },
+
+  editView: function editView() {
+    this.addOffClickListener();
+
+    return React.createElement(
+      'li',
+      null,
+      React.createElement('input', {
+        type: 'text',
+        value: this.props.item.value,
+        onChange: this.handleUpdate,
+        ref: 'edit' }),
+      React.createElement(
+        'button',
+        {
+          onClick: this.handleDelete
+        },
+        'Delete'
+      ),
+      React.createElement('input', {
+        type: 'checkbox',
+        onChange: this.handleUpdate,
+        checked: this.props.item.checked,
+        ref: 'check' }),
+      ' ',
+      this.checkedMessage()
+    );
+  },
+
+  addOffClickListener: function offClickListener() {
+    var el = document.getElementsByTagName('body')[0];
+    el.addEventListener('click', this.bodyClickHandler);
+  },
+
+  removeOffClickListener: function offClickListener() {
+    var el = document.getElementsByTagName('body')[0];
+    el.removeEventListener('click', this.bodyClickHandler);
+  },
+
+  bodyClickHandler: function bodyClickHandler(e) {
+    if (e.target !== this.refs.edit) {
+      this.toggleEdit();
+    }
+  },
+
+  checkedMessage: function checkedMessage() {
+    if (this.props.item.checked) {
+      return 'Checked!';
+    } else {
+      return 'Unchecked';
+    }
+  },
+
+  getInitialState: function getInitialState() {
+    return { edit: false };
+  },
+
+  toggleEdit: function toggleEdit(e) {
+    this.setState({ edit: !this.state.edit });
   },
 
   handleDelete: function handleDelete(e) {
@@ -85,6 +148,7 @@ var ItemComponent = React.createClass({
 
   handleUpdate: function handleCheck(e) {
     var data = {
+      value: this.refs.edit.value || this.props.item.value,
       checked: this.refs.check.checked
     };
 
